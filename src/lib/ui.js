@@ -146,7 +146,7 @@ export function renderFrontpage(
   searchHandler,
   query = undefined,
 ) {
-  const heading = el('h1', {}, 'Geimskotaleitin 🚀');
+  const heading = el('h1', {}, 'Vara');
   const searchForm = renderSearchForm(searchHandler, query);
   const container = el('main', {}, heading, searchForm);
   parentElement.appendChild(container);
@@ -189,7 +189,7 @@ export async function renderDetails(parentElement, id) {
     ? el(
         'div',
         { class: 'mission' },
-        el('h2', {}, `Geimferð: ${result.title ?? '*Engin lýsing*'}`),
+        el('h2', {}, `Vara: ${result.title ?? '*Engin lýsing*'}`),
         el('p', {}, result.description ?? '*Engin lýsing*'),
       )
     : el('p', {}, 'Engar upplýsingar um geimferð.');
