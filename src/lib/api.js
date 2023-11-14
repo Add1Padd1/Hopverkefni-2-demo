@@ -56,10 +56,11 @@ export async function searchProducts(query) {
     console.error('Villa við að lesa gögn', e);
     return null;
   }
-
   
-  const results = data?.results ?? [];
+  
+  const results = data?.items ?? [];
 
+  console.log(results);
   return results;
 }
 

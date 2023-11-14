@@ -91,8 +91,10 @@ function createSearchResults(results, query) {
       const item = el(
         'li',
         { class: 'result' },
+        el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
         el('a', { href: `/?id=${result.id}` }, result.title),
-        el('span', { class: 'mission' }, result.image ?? '*Ekkert heiti*'),
+        el('a', { href: `/?id=${result.id}` }, result.price),
+        el('a', { href: `/?id=${result.id}` }, result.category_title)
       );
       list.appendChild(item);
     }
