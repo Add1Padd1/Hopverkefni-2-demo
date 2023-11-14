@@ -92,7 +92,7 @@ function createSearchResults(results, query) {
         'li',
         { class: 'result' },
         el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
-        el('p', {class: 'titill'}, result.title),
+        el('a', {href: `/?id=${result.id}`}, result.title),
         el('p', { class: 'category'}, `Flokkur: ${result.category_title}`),
     el('p', {},`Verð: ${ result.price } kr.`)
       );
@@ -188,6 +188,8 @@ export async function renderDetails(parentElement, id) {
   }
 
   const productElement = result.title
+  const categoryTitleElement = result.category_title;
+  const descriptionElement = result.description
     ? el(
         'div',
         { class: 'mission' },
@@ -205,9 +207,9 @@ export async function renderDetails(parentElement, id) {
       el('h1', {}, result.title),
     ),
     el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
-    el('p', { class: 'category'}, `Flokkur: ${result.category_title}`),
+    el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
     el('p', {},`Verð: ${ result.price } kr.`),
-    el('p', { class: 'description'}, result.description),
+    el('p', { class: 'description'}, descriptionElement),
     backElement,
   );
 
