@@ -124,3 +124,17 @@
     flex-direction: column;
     gap: calc(var(--spacing));
   }
+
+
+
+  /* Nýju klasarnir sem við ætlum að nota á elementa, endilega inspecta til að sjá þá þegar þeir birtast */
+
+  .search{}
+  .results{}
+  .image{}
+  .category{}
+  .verd{}
+  .vorucontainer{}
+  .description{}
+  .back{}
+  .vorusidutitill{}

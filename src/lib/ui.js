@@ -91,8 +91,10 @@ function createSearchResults(results, query) {
       const item = el(
         'li',
         { class: 'result' },
-        el('a', { href: `/?id=${result.id}` }, result.title),
-        el('span', { class: 'mission' }, result.image ?? '*Ekkert heiti*'),
+        el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
+        el('a', {href: `/?id=${result.id}`}, result.title),
+        el('p', { class: 'category'}, `Flokkur: ${result.category_title}`),
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.`)
       );
       list.appendChild(item);
     }
@@ -186,23 +188,23 @@ export async function renderDetails(parentElement, id) {
   }
 
   const productElement = result.title
+  const categoryTitleElement = result.category_title;
+  const descriptionElement = result.description
     ? el(
         'div',
-        { class: 'mission' },
-        el('h2', {}, `Vara: ${result.title ?? '*Engin lýsing*'}`),
+        { class: 'vorusidutitill' },
+        el('h2', {}, `${result.title ?? '*Engin lýsing*'}`),
         el('p', {}, result.description ?? '*Engin lýsing*'),
       )
     : el('p', {}, 'Engar upplýsingar um geimferð.');
 
   const annadProductElement = el(
     'article',
-    { class: 'launch' },
-    el(
-      'section',
-      { class: 'info' },
-      el('h1', {}, result.title),
-    ),
+    { class: 'vorucontainer' },
     el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
+    el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.`),
+    el('p', { class: 'description'}, descriptionElement),
     backElement,
   );
 
