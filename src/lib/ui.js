@@ -182,7 +182,7 @@ export async function renderDetails(parentElement, id) {
   // Tómt og villu state, við gerum ekki greinarmun á þessu tvennu, ef við
   // myndum vilja gera það þyrftum við að skilgreina stöðu fyrir niðurstöðu
   if (!result) {
-    container.appendChild(el('p', {}, 'Villa við að sækja gögn um geimskot!'));
+    container.appendChild(el('p', {}, 'Villa við að sækja gögn um vöru!'));
     container.appendChild(backElement);
     return;
   }
@@ -193,10 +193,10 @@ export async function renderDetails(parentElement, id) {
     ? el(
         'div',
         { class: 'vorusidutitill' },
-        el('h2', {}, `${result.title ?? '*Engin lýsing*'}`),
+        el('h2', {}, `${result.title ?? '*Engin titill*'}`),
         el('p', {}, result.description ?? '*Engin lýsing*'),
       )
-    : el('p', {}, 'Engar upplýsingar um geimferð.');
+    : el('p', {}, 'Engar upplýsingar um vöru.');
 
   const annadProductElement = el(
     'article',
