@@ -25,9 +25,9 @@ export async function sleep(ms) {
  * @returns {Promise<products[] | null>} Fylki af geimskotum eða `null` ef villa
  *  kom upp.
  */
-export async function searchProducts(query) {
-  const url = new URL('products', API_URL);
-  url.searchParams.set('items', query);
+export async function searchProducts() {
+  const url = new URL('products?limit=6', API_URL);
+  url.searchParams.set('items', {});
 
   // await sleep(1000);
 
@@ -59,15 +59,15 @@ export async function searchProducts(query) {
   
   
   const results = data?.items ?? [];
-
   console.log(results);
+
   return results;
 }
 
 /**
  * Skilar stöku geimskoti eftir auðkenni eða `null` ef ekkert fannst.
  * @param {string} id Auðkenni vöru.
- * @returns {Promise<products | null>} Geimskot.
+ * @returns {Promise<products | null>} Vara.
  */
 export async function getProduct(id) {
   const url = new URL(`/products/${id}`, API_URL);

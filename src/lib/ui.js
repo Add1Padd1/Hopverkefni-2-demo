@@ -72,7 +72,7 @@ function setNotLoading(parentElement, searchForm = undefined) {
  * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
  * @param {string} query Leitarstrengur.
  */
-function createSearchResults(results, query) {
+function createSearchResults(results) {
   const list = el('ul', { class: 'results' });
 
   if (!results) {
@@ -103,7 +103,6 @@ function createSearchResults(results, query) {
   return el(
     'div',
     { class: 'results' },
-    el('h2', {}, `Leitarniðurstöður fyrir „${query}“`),
     list,
   );
 }
@@ -114,7 +113,7 @@ function createSearchResults(results, query) {
  * @param {Element} searchForm Form sem á að gera óvirkt.
  * @param {string} query Leitarstrengur.
  */
-export async function searchAndRender(parentElement, searchForm, query) {
+export async function searchAndRender(parentElement) {
   const mainElement = parentElement.querySelector('main');
 
   if (!mainElement) {
@@ -128,11 +127,10 @@ export async function searchAndRender(parentElement, searchForm, query) {
     resultsElement.remove();
   }
 
-  setLoading(mainElement, searchForm);
-  const results = await searchProducts(query);
-  setNotLoading(mainElement, searchForm);
+  const results = await searchProducts();
 
-  const resultsEl = createSearchResults(results, query);
+
+  const resultsEl = createSearchResults(results);
 
   mainElement.appendChild(resultsEl);
 }
@@ -144,20 +142,12 @@ export async function searchAndRender(parentElement, searchForm, query) {
  * @param {string | undefined} query Leitarorð, ef eitthvað, til að sýna niðurstöður fyrir.
  */
 export function renderFrontpage(
-  parentElement,
-  searchHandler,
-  query = undefined,
+  parentElement
 ) {
-  const heading = el('h1', {}, 'Vara');
-  const searchForm = renderSearchForm(searchHandler, query);
-  const container = el('main', {}, heading, searchForm);
-  parentElement.appendChild(container);
-
-  if (!query) {
-    return;
-  }
-
-  searchAndRender(parentElement, searchForm, query);
+  const heading = el('h1', {}, 'Nýjar vörur');
+  const container = el('main', {}, heading);
+  parentElement.appendChild(container); 
+  searchAndRender(parentElement);
 }
 
 /**
@@ -193,7 +183,7 @@ export async function renderDetails(parentElement, id) {
     ? el(
         'div',
         { class: 'vorusidutitill' },
-        el('h2', {}, `${result.title ?? '*Engin titill*'}`),
+        el('h2', {}, `${productElement ?? '*Engin titill*'}`),
         el('p', {}, result.description ?? '*Engin lýsing*'),
       )
     : el('p', {}, 'Engar upplýsingar um vöru.');

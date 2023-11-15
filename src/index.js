@@ -22,7 +22,6 @@ async function onSearch(e) {
   await searchAndRender(document.body, e.target, value);
   window.history.pushState({}, '', `/?query=${value}`);
 }
-console.log()
 
 /**
  * Athugar hvaða síðu við erum á út frá query-string og birtir.
