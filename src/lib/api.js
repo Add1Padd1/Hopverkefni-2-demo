@@ -5,7 +5,7 @@
  * 
  */
 
-/** Grunnslóð á API (DEV útgáfa) */
+/** Grunnslóð á API */
 const API_URL = 'https://vef1-2023-h2-api-791d754dda5b.herokuapp.com/';
 
 /**
@@ -18,16 +18,14 @@ export async function sleep(ms) {
     setTimeout(() => resolve(undefined), ms);
   });
 }
-
 /**
  * Leita í vefsíðu API eftir leitarstreng.
- * @param {string} query Leitarstrengur.
  * @returns {Promise<products[] | null>} Fylki af geimskotum eða `null` ef villa
  *  kom upp.
  */
-export async function searchProducts() {
+export async function mainPageProducts() {
   const url = new URL('products?limit=6', API_URL);
-  url.searchParams.set('items', {});
+  url.searchParams.set('items', '');
 
   // await sleep(1000);
 
@@ -59,13 +57,12 @@ export async function searchProducts() {
   
   
   const results = data?.items ?? [];
-  console.log(results);
 
   return results;
 }
 
 /**
- * Skilar stöku geimskoti eftir auðkenni eða `null` ef ekkert fannst.
+ * Skilar stakri vöru eftir auðkenni eða `null` ef ekkert fannst.
  * @param {string} id Auðkenni vöru.
  * @returns {Promise<products | null>} Vara.
  */
@@ -91,9 +88,38 @@ export async function getProduct(id) {
   try {
     data = await response.json();
   } catch (e) {
-    console.error('Villa við að lesa gögn um geimskot', e);
+    console.error('Villa við að lesa gögn um vöru', e);
     return null;
   }
 
+  return data;
+}
+
+export async function moreProducts(category_title) {
+  const url = new URL(`products?limit=3&category=${category_title}`, API_URL);
+
+  console.log(url);
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (e) {
+    console.error('Villa við að sækja gögn um vöru', e);
+    return null;
+  }
+
+  if (!response.ok) {
+    console.error('Fékk ekki 200 status frá API fyrir vöru', response);
+    return null;
+  }
+
+  
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error('Villa við að lesa gögn um vöru', e);
+    return null;
+  }
   return data;
 }

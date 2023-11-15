@@ -1,24 +1,6 @@
-import { getProduct as getProduct, searchProducts } from './api.js';
+import { getProduct as getProduct, mainPageProducts } from './api.js';
 import { el } from './elements.js';
 
-/**
- * Býr til leitarform.
- * @param {(e: SubmitEvent) => void} searchHandler Fall sem keyrt er þegar leitað er.
- * @param {string | undefined} query Leitarstrengur.
- * @returns {HTMLElement} Leitarform.
- */
-export function renderSearchForm(searchHandler, query = undefined) {
-  const search = el('input', {
-    type: 'search',
-    placeholder: 'Leitarorð',
-    value: query ?? '',
-  });
-  const button = el('button', {}, 'Leita');
-
-  const container = el('form', { class: 'search' }, search, button);
-  container.addEventListener('submit', searchHandler);
-  return container;
-}
 
 /**
  * Setur „loading state“ skilabað meðan gögn eru sótt.
@@ -70,9 +52,8 @@ function setNotLoading(parentElement, searchForm = undefined) {
 /**
  * Birta niðurstöður úr leit.
  * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
- * @param {string} query Leitarstrengur.
  */
-function createSearchResults(results) {
+function productDetails(results) {
   const list = el('ul', { class: 'results' });
 
   if (!results) {
@@ -94,7 +75,7 @@ function createSearchResults(results) {
         el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
         el('a', {href: `/?id=${result.id}`}, result.title),
         el('p', { class: 'category'}, `Flokkur: ${result.category_title}`),
-    el('p', {class: 'verd'},`Verð: ${ result.price } kr.`)
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`)
       );
       list.appendChild(item);
     }
@@ -110,8 +91,6 @@ function createSearchResults(results) {
 /**
  *
  * @param {HTMLElement} parentElement Element sem á að birta niðurstöður í.
- * @param {Element} searchForm Form sem á að gera óvirkt.
- * @param {string} query Leitarstrengur.
  */
 export async function searchAndRender(parentElement) {
   const mainElement = parentElement.querySelector('main');
@@ -127,10 +106,10 @@ export async function searchAndRender(parentElement) {
     resultsElement.remove();
   }
 
-  const results = await searchProducts();
+  const results = await mainPageProducts();
 
 
-  const resultsEl = createSearchResults(results);
+  const resultsEl = productDetails(results);
 
   mainElement.appendChild(resultsEl);
 }
@@ -138,8 +117,6 @@ export async function searchAndRender(parentElement) {
 /**
  * Sýna forsíðu, hugsanlega með leitarniðurstöðum.
  * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
- * @param {(e: SubmitEvent) => void} searchHandler Fall sem keyrt er þegar leitað er.
- * @param {string | undefined} query Leitarorð, ef eitthvað, til að sýna niðurstöður fyrir.
  */
 export function renderFrontpage(
   parentElement
@@ -193,10 +170,16 @@ export async function renderDetails(parentElement, id) {
     { class: 'vorucontainer' },
     el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
     el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
-    el('p', {class: 'verd'},`Verð: ${ result.price } kr.`),
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`),
     el('p', { class: 'description'}, descriptionElement),
     backElement,
   );
+  const tridjaProductElement = el(
+    'article',
+    { class: 'vorucontainer' },
+    el('h1', { class: 'category'}, `Meira úr ${categoryTitleElement}`),
+    );
 
   container.appendChild(annadProductElement);
+  container.appendChild(tridjaProductElement);
 }

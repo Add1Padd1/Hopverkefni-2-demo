@@ -19,7 +19,7 @@ async function onSearch(e) {
     return;
   }
 
-  await searchAndRender(document.body, e.target, value);
+  await searchAndRender(document.body);
   window.history.pushState({}, '', `/?query=${value}`);
 }
 
@@ -36,7 +36,7 @@ function route() {
   if (id) {
     renderDetails(document.body, id);
   } else {
-    renderFrontpage(document.body, onSearch, query ?? undefined);
+    renderFrontpage(document.body);
   }
 }
 
