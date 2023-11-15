@@ -1,4 +1,5 @@
 import { getProduct as getProduct, mainPageProducts } from './api.js';
+// import { moreProducts as moreProducts} from './api.js';
 import { el } from './elements.js';
 
 
@@ -53,7 +54,7 @@ function setNotLoading(parentElement, searchForm = undefined) {
  * Birta niðurstöður úr leit.
  * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
  */
-function productDetails(results) {
+function frontPageProducts(results) {
   const list = el('ul', { class: 'results' });
 
   if (!results) {
@@ -108,10 +109,17 @@ export async function searchAndRender(parentElement) {
 
   const results = await mainPageProducts();
 
+  // const more = await moreProducts(category_title);
 
-  const resultsEl = productDetails(results);
+
+  const resultsEl = frontPageProducts(results);
+
+  // const moreEl = productDetails(more);
 
   mainElement.appendChild(resultsEl);
+
+  // mainElement.appendChild(moreEl);
+
 }
 
 /**

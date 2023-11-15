@@ -95,31 +95,31 @@ export async function getProduct(id) {
   return data;
 }
 
-export async function moreProducts(category_title) {
-  const url = new URL(`products?limit=3&category=${category_title}`, API_URL);
-
-  console.log(url);
-  let response;
-  try {
-    response = await fetch(url);
-  } catch (e) {
-    console.error('Villa við að sækja gögn um vöru', e);
-    return null;
-  }
-
-  if (!response.ok) {
-    console.error('Fékk ekki 200 status frá API fyrir vöru', response);
-    return null;
-  }
+// export async function moreProducts(category_title) {
+//   const url = new URL(`products?limit=3&category=${category_title}`, API_URL);
 
   
-  let data;
+//   let response;
+//   try {
+//     response = await fetch(url);
+//   } catch (e) {
+//     console.error('Villa við að sækja gögn um vöru', e);
+//     return null;
+//   }
 
-  try {
-    data = await response.json();
-  } catch (e) {
-    console.error('Villa við að lesa gögn um vöru', e);
-    return null;
-  }
-  return data;
-}
+//   if (!response.ok) {
+//     console.error('Fékk ekki 200 status frá API fyrir vöru', response);
+//     return null;
+//   }
+
+  
+//   let data;
+
+//   try {
+//     data = await response.json();
+//   } catch (e) {
+//     console.error('Villa við að lesa gögn um vöru', e);
+//     return null;
+//   }
+//   return data;
+// }
