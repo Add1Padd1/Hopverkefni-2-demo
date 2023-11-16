@@ -172,11 +172,11 @@ export function renderFrontpage(
  */
 export async function renderDetails(parentElement, id) {
   const container = el('main', {});
-  const backElement = el(
-    'div',
-    { class: 'back' },
-    el('a', { href: '/' }, 'Til baka'),
-  );
+  // const backElement = el(
+  //   'div',
+  //   { class: 'back' },
+  //   el('a', { href: '/' }, 'Til baka'),
+  // );
 
   parentElement.appendChild(container);
 
@@ -217,7 +217,7 @@ export async function renderDetails(parentElement, id) {
     el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
     el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`),
     el('p', { class: 'description'}, descriptionElement),
-    backElement,
+    // backElement,
   );
   const tridjaProductElement = el(
     'article',

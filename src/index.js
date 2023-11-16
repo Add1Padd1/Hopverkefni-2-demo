@@ -1,5 +1,5 @@
 import { empty } from './lib/elements.js';
-import { renderDetails, renderFrontpage, renderProducts, renderMoreProducts } from './lib/ui.js';
+import { renderDetails, renderFrontpage, renderProducts } from './lib/ui.js';
 
 /**
  * Fall sem keyrir við leit.
@@ -19,7 +19,7 @@ async function onSearch(e) {
     return;
   }
 
-  await searchAndRender(document.body);
+  await renderProducts(document.body);
   window.history.pushState({}, '', `/?query=${value}`);
 }
 
