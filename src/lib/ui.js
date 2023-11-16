@@ -1,5 +1,5 @@
 import { getProduct as getProduct, mainPageProducts } from './api.js';
-// import { moreProducts as moreProducts} from './api.js';
+import { moreProducts as moreProducts} from './api.js';
 import { el } from './elements.js';
 
 
@@ -54,7 +54,7 @@ function setNotLoading(parentElement, searchForm = undefined) {
  * Birta niðurstöður úr leit.
  * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
  */
-function frontPageProducts(results) {
+function productList(results) {
   const list = el('ul', { class: 'results' });
 
   if (!results) {
@@ -93,7 +93,7 @@ function frontPageProducts(results) {
  *
  * @param {HTMLElement} parentElement Element sem á að birta niðurstöður í.
  */
-export async function searchAndRender(parentElement) {
+export async function renderProducts(parentElement) {
   const mainElement = parentElement.querySelector('main');
 
   if (!mainElement) {
@@ -112,7 +112,7 @@ export async function searchAndRender(parentElement) {
   // const more = await moreProducts(category_title);
 
 
-  const resultsEl = frontPageProducts(results);
+  const resultsEl = productList(results);
 
   // const moreEl = productDetails(more);
 
@@ -121,6 +121,36 @@ export async function searchAndRender(parentElement) {
   // mainElement.appendChild(moreEl);
 
 }
+export async function renderMoreProducts(parentElement) {
+  const mainElement = parentElement.querySelector('main');
+
+  if (!mainElement) {
+    console.warn('fann ekki <main> element');
+    return;
+  }
+
+  // Fjarlægja fyrri niðurstöður
+  const resultsElement = mainElement.querySelector('.results');
+  if (resultsElement) {
+    resultsElement.remove();
+  }
+
+  // const results = await mainPageProducts();
+
+  const more = await moreProducts(category_title);
+
+
+  // const resultsEl = frontPageProducts(results);
+
+  const moreEl = productList(more);
+
+  // mainElement.appendChild(resultsEl);
+
+  parentElement.appendChild(moreEl);
+
+}
+
+
 
 /**
  * Sýna forsíðu, hugsanlega með leitarniðurstöðum.
@@ -132,7 +162,7 @@ export function renderFrontpage(
   const heading = el('h1', {}, 'Nýjar vörur');
   const container = el('main', {}, heading);
   parentElement.appendChild(container); 
-  searchAndRender(parentElement);
+  renderProducts(parentElement);
 }
 
 /**
@@ -164,6 +194,13 @@ export async function renderDetails(parentElement, id) {
 
   const productElement = result.title
   const categoryTitleElement = result.category_title;
+  const categoryIdElement = result.category_id;
+  console.log(categoryIdElement)
+  setLoading(container);
+  const more = await moreProducts(categoryIdElement);
+  setNotLoading(container);
+  const moreEl = productList(more);
+  
   const descriptionElement = result.description
     ? el(
         'div',
@@ -187,7 +224,7 @@ export async function renderDetails(parentElement, id) {
     { class: 'vorucontainer' },
     el('h1', { class: 'category'}, `Meira úr ${categoryTitleElement}`),
     );
-
   container.appendChild(annadProductElement);
   container.appendChild(tridjaProductElement);
+  container.appendChild(moreEl);
 }
