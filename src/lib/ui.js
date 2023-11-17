@@ -1,5 +1,6 @@
-import { getProduct as getProduct, mainPageProducts } from './api.js';
+import { getCategory, getProduct as getProduct, mainPageProducts } from './api.js';
 import { moreProducts as moreProducts} from './api.js';
+import { mainPageCategories as mainPageCategories} from './api.js';
 import { el } from './elements.js';
 
 
@@ -51,28 +52,28 @@ function setNotLoading(parentElement, searchForm = undefined) {
 }
 
 /**
- * Birta niðurstöður úr leit.
+ * Taka upplýsingar úr JSON results og birtir vörur.
  * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
  */
 function productList(results) {
-  const list = el('ul', { class: 'results' });
+  const list = el('div', { class: 'productContainer' });
 
   if (!results) {
     // Error state
-    const item = el('li', { class: 'result' }, 'Villa við að sækja gögn.');
+    const item = el('section', { class: 'productSection' }, 'Villa við að sækja gögn.');
     list.appendChild(item);
   } else {
     // Empty state
     if (results.length === 0) {
-      const item = el('li', { class: 'result' }, 'Ekkert fannst.');
+      const item = el('section', { class: 'productSection' }, 'Ekkert fannst.');
       list.appendChild(item);
     }
 
     // Data state
     for (const result of results) {
       const item = el(
-        'li',
-        { class: 'result' },
+        'section',
+        { class: 'productSection' },
         el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
         el('a', {href: `/?id=${result.id}`}, result.title),
         el('p', { class: 'category'}, `Flokkur: ${result.category_title}`),
@@ -82,15 +83,46 @@ function productList(results) {
     }
   }
 
-  return el(
-    'div',
-    { class: 'results' },
-    list,
-  );
+  return list;
 }
 
 /**
- *
+ * Tekur niðurstöður úr JSON og birtir vöruflokka.
+ * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
+ */
+function productCategoryList(results) {
+  const list = el('div', { class: 'frontpageCategoryContainer' });
+  const categoryHeader = el('h1', {class: 'categoryHeader'}, 'Skoðaðu vöruflokkana okkar')
+  if (!results) {
+    // Error state
+    const item = el('section', { class: 'categorySection' }, 'Villa við að sækja gögn.');
+    list.appendChild(item);
+  } else {
+    // Empty state
+    if (results.length === 0) {
+      const item = el('section', { class: 'categorySection' }, 'Ekkert fannst.');
+      list.appendChild(item);
+    }
+    
+    list.appendChild(categoryHeader);
+    // Data state
+    for (const result of results) {
+      const item = el(
+        'section',
+        { class: 'categories' },
+        el('a', {href: `/products?category=${result.id}`}, result.title),
+      );
+      list.appendChild(item);
+    }
+  }
+
+  return list;
+}
+
+
+
+/**
+ * Renderar vörur og birtir þær á parentElement
  * @param {HTMLElement} parentElement Element sem á að birta niðurstöður í.
  */
 export async function renderProducts(parentElement) {
@@ -109,19 +141,43 @@ export async function renderProducts(parentElement) {
 
   const results = await mainPageProducts();
 
-  // const more = await moreProducts(category_title);
+  // const categories = await mainPageCategories();
 
 
   const resultsEl = productList(results);
 
-  // const moreEl = productDetails(more);
+  // const categoriesEl = productCategoryList(categories);
 
   mainElement.appendChild(resultsEl);
 
-  // mainElement.appendChild(moreEl);
+  // mainElement.appendChild(categoriesEl);
 
 }
-export async function renderMoreProducts(parentElement) {
+
+
+
+
+/**
+ * Sýna forsíðu með 6 vörum og 10 flokkum.
+ * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
+ */
+export function renderFrontpage(
+  parentElement
+) {
+  const heading = el('h1', {}, 'Nýjar vörur');
+  const container = el('main', {}, heading);
+
+  parentElement.appendChild(container);
+  
+  renderProducts(parentElement);
+  renderCategoryProducts(parentElement);
+
+}
+/**
+ * Renderar vöruflokkana á forsíðu.
+ * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
+ */
+export async function renderCategoryProducts(parentElement) {
   const mainElement = parentElement.querySelector('main');
 
   if (!mainElement) {
@@ -135,40 +191,16 @@ export async function renderMoreProducts(parentElement) {
     resultsElement.remove();
   }
 
-  // const results = await mainPageProducts();
+  const categories = await mainPageCategories();
 
-  const more = await moreProducts(category_title);
-
-
-  // const resultsEl = frontPageProducts(results);
-
-  const moreEl = productList(more);
-
-  // mainElement.appendChild(resultsEl);
-
-  parentElement.appendChild(moreEl);
-
-}
-
-
-
-/**
- * Sýna forsíðu, hugsanlega með leitarniðurstöðum.
- * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
- */
-export function renderFrontpage(
-  parentElement
-) {
-  const heading = el('h1', {}, 'Nýjar vörur');
-  const container = el('main', {}, heading);
-  parentElement.appendChild(container); 
-  renderProducts(parentElement);
+  const categoriesEl = productCategoryList(categories);
+  mainElement.appendChild(categoriesEl);
 }
 
 /**
- * Sýna geimskot.
- * @param {HTMLElement} parentElement Element sem á að innihalda geimskot.
- * @param {string} id Auðkenni geimskots.
+ * Sýnir vöruupplýsingar eftir að clickað er á vöruna.
+ * @param {HTMLElement} parentElement Element sem á að innihalda vöru.
+ * @param {string} id Auðkenni vöru.
  */
 export async function renderDetails(parentElement, id) {
   const container = el('main', {});
@@ -180,25 +212,28 @@ export async function renderDetails(parentElement, id) {
 
   parentElement.appendChild(container);
 
-  setLoading(container);
+  const divContainer = el('div', {class: 'divContainer'});
+
+  container.appendChild(divContainer);
+
+  setLoading(divContainer);
   const result = await getProduct(id);
-  setNotLoading(container);
+  setNotLoading(divContainer);
 
   // Tómt og villu state, við gerum ekki greinarmun á þessu tvennu, ef við
   // myndum vilja gera það þyrftum við að skilgreina stöðu fyrir niðurstöðu
   if (!result) {
-    container.appendChild(el('p', {}, 'Villa við að sækja gögn um vöru!'));
-    container.appendChild(backElement);
+    divContainer.appendChild(el('p', {}, 'Villa við að sækja gögn um vöru!'));
+    // container.appendChild(backElement);
     return;
   }
 
   const productElement = result.title
   const categoryTitleElement = result.category_title;
   const categoryIdElement = result.category_id;
-  console.log(categoryIdElement)
-  setLoading(container);
+  setLoading(divContainer);
   const more = await moreProducts(categoryIdElement);
-  setNotLoading(container);
+  setNotLoading(divContainer);
   const moreEl = productList(more);
   
   const descriptionElement = result.description
@@ -211,8 +246,8 @@ export async function renderDetails(parentElement, id) {
     : el('p', {}, 'Engar upplýsingar um vöru.');
 
   const annadProductElement = el(
-    'article',
-    { class: 'vorucontainer' },
+    'div',
+    { class: 'voruDetailContainer' },
     el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
     el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
     el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`),
@@ -220,11 +255,71 @@ export async function renderDetails(parentElement, id) {
     // backElement,
   );
   const tridjaProductElement = el(
-    'article',
-    { class: 'vorucontainer' },
+    'div',
+    { class: 'moreHeader' },
     el('h1', { class: 'category'}, `Meira úr ${categoryTitleElement}`),
     );
-  container.appendChild(annadProductElement);
-  container.appendChild(tridjaProductElement);
-  container.appendChild(moreEl);
+    divContainer.appendChild(annadProductElement);
+    divContainer.appendChild(tridjaProductElement);
+    divContainer.appendChild(moreEl);
+}
+
+
+
+
+export async function renderDistinctCategory(parentElement, category_id) {
+  const container = el('main', {});
+  // const backElement = el(
+  //   'div',
+  //   { class: 'back' },
+  //   el('a', { href: '/' }, 'Til baka'),
+  // );
+
+  parentElement.appendChild(container);
+
+  const divContainer = el('div', {class: 'divContainer'});
+
+  container.appendChild(divContainer);
+
+  setLoading(divContainer);
+  const result = await getCategory(category_id);
+  setNotLoading(divContainer);
+  
+  const categoryEl = productList(result);
+
+  
+
+  // Tómt og villu state, við gerum ekki greinarmun á þessu tvennu, ef við
+  // myndum vilja gera það þyrftum við að skilgreina stöðu fyrir niðurstöðu
+  if (!result) {
+    divContainer.appendChild(el('p', {}, 'Villa við að sækja gögn um vöru!'));
+    // container.appendChild(backElement);
+    return;
+  }
+
+  const productElement = result.title
+  const categoryTitleElement = result.category_title;
+  const categoryIdElement = result.category_id;
+  
+  
+  const descriptionElement = result.description
+    ? el(
+        'div',
+        { class: 'vorusidutitill' },
+        el('h2', {}, `${productElement ?? '*Engin titill*'}`),
+        el('p', {}, result.description ?? '*Engin lýsing*'),
+      )
+    : el('p', {}, 'Engar upplýsingar um vöru.');
+
+  const annadProductElement = el(
+    'section',
+    { class: 'categoryVoruContainer' },
+    el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
+    el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`),
+    el('p', { class: 'description'}, descriptionElement),
+    // backElement,
+  );
+  divContainer.appendChild(annadProductElement);
+  divContainer.appendChild(categoryEl);
 }

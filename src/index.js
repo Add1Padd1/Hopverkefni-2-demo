@@ -1,5 +1,5 @@
 import { empty } from './lib/elements.js';
-import { renderDetails, renderFrontpage, renderProducts } from './lib/ui.js';
+import { renderDetails, renderFrontpage, renderProducts, renderDistinctCategory } from './lib/ui.js';
 
 /**
  * Fall sem keyrir við leit.
@@ -25,19 +25,24 @@ async function onSearch(e) {
 
 /**
  * Athugar hvaða síðu við erum á út frá query-string og birtir.
- * Ef `id` er gefið er stakt geimskot birt, annars er forsíða birt með
- * leitarniðurstöðum ef `query` er gefið.
+ * Ef `id` er gefið er vara birt, annars er forsíða birt.
  */
 function route() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   const query = params.get('query');
+  const category = params.get('category');
 
   if (id) {
     renderDetails(document.body, id);
-  } else {
+  }
+  else if(category){
+    renderDistinctCategory(document.body, category);
+  } 
+  else {
     renderFrontpage(document.body);
   }
+  console.log(category)
 }
 
 // Bregst við því þegar við notum vafra til að fara til baka eða áfram.

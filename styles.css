@@ -128,13 +128,37 @@
 
 
   /* Nýju klasarnir sem við ætlum að nota á elementa, endilega inspecta til að sjá þá þegar þeir birtast */
-
+  /* Stroka út þá klasa sem ekki eru notaðir */
+  .footer{
+    font-size: 1.5em;
+    display: inline;
+    font-weight: 650;
+  }
   .search{}
-  .results{}
-  .image{}
-  .category{}
-  .verd{}
+  .result{
+  }
+  .image{
+  }
+  .category{
+    font-size: 1.3em;
+    font-weight: 500;
+  }
+  .categories{
+    list-style: none;
+    font-size: large;
+    font-weight: 500;
+  }
+  .verd{
+    font-size: 1.5em;
+    font-weight: 600;
+  }
+  .categoryHeader{
+  }
   .vorucontainer{}
-  .description{}
+  .description{
+    margin: 1.5em;
+    font-size: 1.1em;
+    display: inline;
+  }
   .back{}
   .vorusidutitill{}

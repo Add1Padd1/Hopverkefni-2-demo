@@ -61,6 +61,46 @@ export async function mainPageProducts() {
   return results;
 }
 
+export async function mainPageCategories() {
+  const url = new URL('/categories', API_URL);
+  url.searchParams.set('items', '');
+
+  await sleep(1000);
+
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (e) {
+    console.error('Villa við að sækja gögn', e);
+    return null;
+  }
+
+  if (!response.ok) {
+    console.error('Fékk ekki 200 status frá API', response);
+    return null;
+  }
+
+  // Smá varkárni: gerum ekki ráð fyrir að API skili alltaf
+  // réttum gögnum, en `json()` skilar alltaf *öllu* með `any`
+  // týpunni sem er of víðtæk til að vera gagnleg.
+  // (en hvað ef gögnin eru ekki eins og týpan??)
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error('Villa við að lesa gögn', e);
+    return null;
+  }
+  
+  
+  const results = data?.items ?? [];
+  
+  return results;
+}
+
+
+
 /**
  * Skilar stakri vöru eftir auðkenni eða `null` ef ekkert fannst.
  * @param {string} id Auðkenni vöru.
@@ -93,6 +133,42 @@ export async function getProduct(id) {
   }
 
   return data;
+}
+
+/**
+ * Skilar stakri vöru eftir auðkenni eða `null` ef ekkert fannst.
+ * @param {string} category_id Auðkenni vöruflokks.
+ * @returns {Promise<products | null>} Vara.
+ */
+export async function getCategory(category_id) {
+  const url = new URL(`/products?category=${category_id}`, API_URL);
+
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (e) {
+    console.error('Villa við að sækja gögn um vöru', e);
+    return null;
+  }
+
+  if (!response.ok) {
+    console.error('Fékk ekki 200 status frá API fyrir vöru', response);
+    return null;
+  }
+
+  
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error('Villa við að lesa gögn um vöru', e);
+    return null;
+  }
+
+  const results = data?.items ?? [];
+
+  return results;
 }
 
 export async function moreProducts(category_id) {
