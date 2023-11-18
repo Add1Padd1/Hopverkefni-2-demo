@@ -1,4 +1,4 @@
-import { getCategory, getProduct as getProduct, mainPageProducts } from './api.js';
+import { getAllProducts, getCategory, getProduct, mainPageProducts } from './api.js';
 import { moreProducts as moreProducts} from './api.js';
 import { mainPageCategories as mainPageCategories} from './api.js';
 import { el } from './elements.js';
@@ -166,6 +166,7 @@ export function renderFrontpage(
 ) {
   const heading = el('h1', {}, 'Nýjar vörur');
   const container = el('main', {}, heading);
+  
 
   parentElement.appendChild(container);
   
@@ -194,7 +195,10 @@ export async function renderCategoryProducts(parentElement) {
   const categories = await mainPageCategories();
 
   const categoriesEl = productCategoryList(categories);
+
+  const vorusida = el('a', { href: '/products' }, 'Vörusíða')
   mainElement.appendChild(categoriesEl);
+  mainElement.appendChild(vorusida);
 }
 
 /**
@@ -267,7 +271,7 @@ export async function renderDetails(parentElement, id) {
 
 
 
-export async function renderDistinctCategory(parentElement, category_id) {
+export async function renderDistinctCategory(parentElement, id) {
   const container = el('main', {});
   // const backElement = el(
   //   'div',
@@ -281,11 +285,13 @@ export async function renderDistinctCategory(parentElement, category_id) {
 
   container.appendChild(divContainer);
 
+// Þarf að ná í products
   setLoading(divContainer);
-  const result = await getCategory(category_id);
+  const result = await getCategory(id);
   setNotLoading(divContainer);
+
   
-  const categoryEl = productList(result);
+  
 
   
 
@@ -300,6 +306,8 @@ export async function renderDistinctCategory(parentElement, category_id) {
   const productElement = result.title
   const categoryTitleElement = result.category_title;
   const categoryIdElement = result.category_id;
+
+  
   
   
   const descriptionElement = result.description
@@ -321,5 +329,4 @@ export async function renderDistinctCategory(parentElement, category_id) {
     // backElement,
   );
   divContainer.appendChild(annadProductElement);
-  divContainer.appendChild(categoryEl);
 }
