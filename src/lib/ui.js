@@ -202,6 +202,60 @@ export async function renderCategoryProducts(parentElement) {
 }
 
 /**
+ * Sýnir vörulista.
+ * @param {HTMLElement} parentElement Element sem á að innihalda vörulista.
+ */
+export async function renderAllProducts(parentElement) {
+  const container = el('main', {});
+  // const backElement = el(
+  //   'div',
+  //   { class: 'back' },
+  //   el('a', { href: '/' }, 'Til baka'),
+  // );
+
+  parentElement.appendChild(container);
+
+  const divContainer = el('div', {class: 'divContainer'});
+
+  container.appendChild(divContainer);
+
+  setLoading(divContainer);
+  const result = await getAllProducts();
+  setNotLoading(divContainer);
+
+  // Tómt og villu state, við gerum ekki greinarmun á þessu tvennu, ef við
+  // myndum vilja gera það þyrftum við að skilgreina stöðu fyrir niðurstöðu
+  if (!result) {
+    divContainer.appendChild(el('p', {}, 'Villa við að sækja gögn um vöru!'));
+    // container.appendChild(backElement);
+    return;
+  }
+
+  const productElement = result.title
+  const categoryTitleElement = result.category_title;
+  const categoryIdElement = result.category_id;
+  
+  const descriptionElement = result.description
+    ? el(
+        'div',
+        { class: 'vorusidutitill' },
+        el('h2', {}, `${productElement ?? '*Engin titill*'}`),
+        el('p', {}, result.description ?? '*Engin lýsing*'),
+      )
+    : el('p', {}, 'Engar upplýsingar um vöru.');
+
+  const annadProductElement = el(
+    'div',
+    { class: 'voruDetailContainer' },
+    el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
+    el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`),
+    el('p', { class: 'description'}, descriptionElement),
+    // backElement,
+  );
+    divContainer.appendChild(annadProductElement);
+  }
+/**
  * Sýnir vöruupplýsingar eftir að clickað er á vöruna.
  * @param {HTMLElement} parentElement Element sem á að innihalda vöru.
  * @param {string} id Auðkenni vöru.

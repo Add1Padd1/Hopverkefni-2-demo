@@ -1,5 +1,5 @@
 import { empty } from './lib/elements.js';
-import { renderDetails, renderFrontpage, renderProducts, renderDistinctCategory } from './lib/ui.js';
+import { renderDetails, renderFrontpage, renderProducts, renderDistinctCategory, renderAllProducts } from './lib/ui.js';
 
 /**
  * Fall sem keyrir við leit.
@@ -9,18 +9,18 @@ import { renderDetails, renderFrontpage, renderProducts, renderDistinctCategory 
 async function onSearch(e) {
   e.preventDefault();
 
-  if (!e.target || !(e.target instanceof Element)) {
-    return;
-  }
+  // if (!e.target || !(e.target instanceof Element)) {
+  //   return;
+  // }
 
-  const { value } = e.target.querySelector('input') ?? {};
+  // const { value } = e.target.querySelector('input') ?? {};
 
-  if (!value) {
-    return;
-  }
+  // if (!value) {
+  //   return;
+  // }
 
-  await renderProducts(document.body);
-  window.history.pushState({}, '', `/?query=${value}`);
+  // await renderProducts(document.body);
+  // window.history.pushState({}, '', `/?query=${value}`);
 }
 
 /**
@@ -32,13 +32,17 @@ function route() {
   const id = params.get('id');
   const query = params.get('query');
   const category = params.get('category');
+  const products = params.get('products');
 
   if (id) {
     renderDetails(document.body, id);
   }
   else if(category){
     renderDistinctCategory(document.body, category);
-  } 
+  }
+  else if(products){
+    renderAllProducts(document.body);
+  }
   else {
     renderFrontpage(document.body);
   }
