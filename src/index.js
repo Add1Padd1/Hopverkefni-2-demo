@@ -1,5 +1,5 @@
 import { empty } from './lib/elements.js';
-import { renderDetails, renderFrontpage, renderProducts, renderDistinctCategory, renderAllProducts } from './lib/ui.js';
+import { renderDetails, renderFrontpage, renderDistinctCategory, renderAllarVorur } from './lib/ui.js';
 
 /**
  * Fall sem keyrir við leit.
@@ -30,24 +30,25 @@ async function onSearch(e) {
 function route() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  const query = params.get('query');
   const category = params.get('category');
   const products = params.get('products');
 
-  if (id) {
+  if(products){
+    renderAllarVorur(document.body);
+  }
+  else if (id) {
     renderDetails(document.body, id);
   }
   else if(category){
     renderDistinctCategory(document.body, category);
   }
-  else if(products){
-    renderAllProducts(document.body);
-  }
+  
   else {
     renderFrontpage(document.body);
   }
-  console.log(products);
 }
+
+
 
 // Bregst við því þegar við notum vafra til að fara til baka eða áfram.
 window.onpopstate = () => {

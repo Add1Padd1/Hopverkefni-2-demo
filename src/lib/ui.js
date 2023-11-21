@@ -157,6 +157,41 @@ function listOfCategoryProducts(results) {
 
 
 
+
+function listOfVorulistaProducts(results) {
+  const list = el('div', { class: 'productContainer' });
+
+  if (!results) {
+    // Error state
+    const item = el('section', { class: 'productSection' }, 'Villa við að sækja gögn.');
+    list.appendChild(item);
+  } else {
+    // Empty state
+    if (results.length === 0) {
+      const item = el('section', { class: 'productSection' }, 'Ekkert fannst.');
+      list.appendChild(item);
+    }
+
+    // Data state
+    for (const result of results) {
+      const item = el(
+        'section',
+        { class: 'productSection' },
+        el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
+        el('a', {href: `/?id=${result.id}`}, result.title),
+        el('p', { class: 'category'}, `Flokkur: ${result.category_title}`),
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`)
+      );
+      list.appendChild(item);
+    }
+  }
+
+  return list;
+}
+
+
+
+
 /**
  * Renderar vörur og birtir þær á parentElement
  * @param {HTMLElement} parentElement Element sem á að birta niðurstöður í.
@@ -210,6 +245,9 @@ export function renderFrontpage(
   renderCategoryProducts(parentElement);
 
 }
+
+
+
 /**
  * Renderar vöruflokkana á forsíðu.
  * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
@@ -236,60 +274,55 @@ export async function renderCategoryProducts(parentElement) {
   mainElement.appendChild(categoriesEl);
   mainElement.appendChild(vorusida);
 }
-
 /**
  * Sýnir vörulista.
  * @param {HTMLElement} parentElement Element sem á að innihalda vörulista.
  */
-export async function renderAllProducts(parentElement) {
-  const container = el('main', {});
-  // const backElement = el(
-  //   'div',
-  //   { class: 'back' },
-  //   el('a', { href: '/' }, 'Til baka'),
-  // );
+export function renderAllarVorur(
+  parentElement
+) {
+  const heading = el('h1', {}, 'Allar vörur');
+  const container = el('main', {}, heading);
+  
 
   parentElement.appendChild(container);
+  
+  renderAllProducts(parentElement);
 
-  const divContainer = el('div', {class: 'divContainer'});
+}
 
-  container.appendChild(divContainer);
 
-  setLoading(divContainer);
+/**
+ * Gerir vörulista.
+ * @param {HTMLElement} parentElement Element sem á að innihalda vörulista.
+ */
+export async function renderAllProducts(parentElement) {
+  const mainElement = parentElement.querySelector('main');
+
+  if (!mainElement) {
+    console.warn('fann ekki <main> element');
+    return;
+  }
+
+  // Fjarlægja fyrri niðurstöður
+  const resultsElement = mainElement.querySelector('.results');
+  if (resultsElement) {
+    resultsElement.remove();
+  }
+
+  setLoading(mainElement);
   const result = await getAllProducts();
-  setNotLoading(divContainer);
+  setNotLoading(mainElement);
 
   // Tómt og villu state, við gerum ekki greinarmun á þessu tvennu, ef við
   // myndum vilja gera það þyrftum við að skilgreina stöðu fyrir niðurstöðu
   if (!result) {
-    divContainer.appendChild(el('p', {}, 'Villa við að sækja gögn um vöru!'));
+    mainElement.appendChild(el('p', {}, 'Villa við að sækja gögn um vöru!'));
     // container.appendChild(backElement);
     return;
   }
-
-  const productElement = result.title
-  const categoryTitleElement = result.category_title;
-  const categoryIdElement = result.category_id;
-  
-  const descriptionElement = result.description
-    ? el(
-        'div',
-        { class: 'vorusidutitill' },
-        el('h2', {}, `${productElement ?? '*Engin titill*'}`),
-        el('p', {}, result.description ?? '*Engin lýsing*'),
-      )
-    : el('p', {}, 'Engar upplýsingar um vöru.');
-
-  const annadProductElement = el(
-    'div',
-    { class: 'voruDetailContainer' },
-    el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
-    el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
-    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`),
-    el('p', { class: 'description'}, descriptionElement),
-    // backElement,
-  );
-    divContainer.appendChild(annadProductElement);
+  const vorulisti = listOfVorulistaProducts(result);
+  mainElement.appendChild(vorulisti);
   }
 
 
@@ -367,7 +400,6 @@ export async function renderDetails(parentElement, id) {
 
 
 export async function renderDistinctCategory(parentElement, id) {
-  console.log('test')
   const container = el('main', {});
   // const backElement = el(
   //   'div',
@@ -384,7 +416,6 @@ export async function renderDistinctCategory(parentElement, id) {
 // Þarf að ná í products
   setLoading(divContainer);
   const result = await getCategory(id);
-  console.log('resulte:', result);
   setNotLoading(divContainer);
 
   
