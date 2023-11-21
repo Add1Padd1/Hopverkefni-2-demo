@@ -110,7 +110,43 @@ function productCategoryList(results) {
       const item = el(
         'section',
         { class: 'categories' },
-        el('a', {href: `/products?category=${result.id}`}, result.title),
+        el('a', {href: `/?category=${result.id}`}, result.title),
+      );
+      list.appendChild(item);
+    }
+  }
+
+  return list;
+}
+
+
+
+
+
+function listOfCategoryProducts(results) {
+  const list = el('div', { class: 'productContainer' });
+
+  if (!results) {
+    // Error state
+    const item = el('section', { class: 'productSection' }, 'Villa við að sækja gögn.');
+    list.appendChild(item);
+  } else {
+    // Empty state
+    if (results.length === 0) {
+      const item = el('section', { class: 'productSection' }, 'Ekkert fannst.');
+      list.appendChild(item);
+    }
+    const categoryFlokkur = results[0].category_title;
+
+    // Data state
+    for (const result of results) {
+      const item = el(
+        'section',
+        { class: 'productSection' },
+        el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
+        el('a', {href: `/?id=${result.id}`}, result.title),
+        el('p', { class: 'category'}, `Flokkur: ${categoryFlokkur}`),
+    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`)
       );
       list.appendChild(item);
     }
@@ -255,6 +291,11 @@ export async function renderAllProducts(parentElement) {
   );
     divContainer.appendChild(annadProductElement);
   }
+
+
+
+
+
 /**
  * Sýnir vöruupplýsingar eftir að clickað er á vöruna.
  * @param {HTMLElement} parentElement Element sem á að innihalda vöru.
@@ -326,6 +367,7 @@ export async function renderDetails(parentElement, id) {
 
 
 export async function renderDistinctCategory(parentElement, id) {
+  console.log('test')
   const container = el('main', {});
   // const backElement = el(
   //   'div',
@@ -342,6 +384,7 @@ export async function renderDistinctCategory(parentElement, id) {
 // Þarf að ná í products
   setLoading(divContainer);
   const result = await getCategory(id);
+  console.log('resulte:', result);
   setNotLoading(divContainer);
 
   
@@ -357,30 +400,7 @@ export async function renderDistinctCategory(parentElement, id) {
     return;
   }
 
-  const productElement = result.title
-  const categoryTitleElement = result.category_title;
-  const categoryIdElement = result.category_id;
+  const voruflokkur = listOfCategoryProducts(result);
 
-  
-  
-  
-  const descriptionElement = result.description
-    ? el(
-        'div',
-        { class: 'vorusidutitill' },
-        el('h2', {}, `${productElement ?? '*Engin titill*'}`),
-        el('p', {}, result.description ?? '*Engin lýsing*'),
-      )
-    : el('p', {}, 'Engar upplýsingar um vöru.');
-
-  const annadProductElement = el(
-    'section',
-    { class: 'categoryVoruContainer' },
-    el('div', { class: 'image' }, el('img', { src: result.image, alt: '' })),
-    el('p', { class: 'category'}, `Flokkur: ${categoryTitleElement}`),
-    el('p', {class: 'verd'},`Verð: ${ result.price } kr.-`),
-    el('p', { class: 'description'}, descriptionElement),
-    // backElement,
-  );
-  divContainer.appendChild(annadProductElement);
+  divContainer.appendChild(voruflokkur);
 }

@@ -46,7 +46,7 @@ function route() {
   else {
     renderFrontpage(document.body);
   }
-  console.log(category)
+  console.log(products);
 }
 
 // Bregst við því þegar við notum vafra til að fara til baka eða áfram.

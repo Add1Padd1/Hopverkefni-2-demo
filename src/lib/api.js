@@ -205,8 +205,9 @@ export async function getCategory(id) {
     console.error('Villa við að lesa gögn um vöru', e);
     return null;
   }
-
+  console.log(data.items)
   const results = data?.items ?? [];
+  console.log(results)
 
   return results;
 }
