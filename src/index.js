@@ -33,6 +33,17 @@ function route() {
   const category = params.get('category');
   const products = params.get('products');
 
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.getElementById('/products').addEventListener('click', function(event) {
+//     event.preventDefault();
+//     renderAllarVorur(document.body);
+//   })
+// })
+  // var pathArray = window.location.pathname.split('/');
+  // console.log(pathArray);
+
+  
   if(products){
     renderAllarVorur(document.body);
   }

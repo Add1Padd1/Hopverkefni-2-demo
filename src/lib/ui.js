@@ -87,7 +87,7 @@ function productList(results) {
 }
 
 /**
- * Tekur niðurstöður úr JSON og birtir vöruflokka.
+ * Tekur niðurstöður úr JSON og birtir vöruflokka Á FORSÍÐU.
  * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
  */
 function productCategoryList(results) {
@@ -122,7 +122,10 @@ function productCategoryList(results) {
 
 
 
-
+/**
+ * Birtir lista af vörum úr ákveðnum vöruflokki, Á VÖRULISTASÍÐU.
+ * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
+ */
 function listOfCategoryProducts(results) {
   const list = el('div', { class: 'productContainer' });
 
@@ -311,6 +314,7 @@ export async function renderAllProducts(parentElement) {
   }
 
   setLoading(mainElement);
+  console.log("test");
   const result = await getAllProducts();
   setNotLoading(mainElement);
 

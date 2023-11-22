@@ -5,6 +5,8 @@
  * 
  */
 
+import { renderAllProducts } from './ui.js';
+
 /** Grunnslóð á API */
 const API_URL = 'https://vef1-2023-h2-api-791d754dda5b.herokuapp.com/';
 
@@ -98,14 +100,33 @@ export async function mainPageCategories() {
   
   return results;
 }
-
+// export async function fetchProducts() {
+//   let products = [];
+//   const baseURL = 'https://vef1-2023-h2-api-791d754dda5b.herokuapp.com/';
+//   const endpoint = 'products';
+//   let url = baseURL + endpoint;
+  
+//   while(url) {
+//     try {
+//       const response = await fetch(url);
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+//       const data = await response.json();
+//       products = products.concat(data.items);
+//     }
+//     catch (error) {
+//       console.error('Error fetching data:', error);
+//       url = null;
+//     }
+//     renderAllProducts(products);
+//   }
+//   }
 
 export async function getAllProducts() {
-  const url = new URL('/products', API_URL);
-  url.searchParams.set('items', '');
-
-  await sleep(1000);
-
+  const url = new URL(`/products`, API_URL);
+  //url.searchParams.set('items', '');
+  console.log("fetch");
   let response;
   try {
     response = await fetch(url);
@@ -174,11 +195,7 @@ export async function getProduct(id) {
   return data;
 }
 
-/**
- * Skilar stakri vöru eftir auðkenni eða `null` ef ekkert fannst.
- * @param {string} id Auðkenni vöruflokks.
- * @returns {Promise<products | null>} Vara.
- */
+
 export async function getCategory(id) {
   const url = new URL(`/products?category=${id}`, API_URL);
   url.searchParams.set('items', '');
