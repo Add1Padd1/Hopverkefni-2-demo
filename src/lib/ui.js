@@ -53,7 +53,7 @@ function setNotLoading(parentElement, searchForm = undefined) {
 
 /**
  * Taka upplýsingar úr JSON results og birtir vörur.
- * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
+ * 
  */
 function productList(results) {
   const list = el('div', { class: 'productContainer' });
