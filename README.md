@@ -8,4 +8,3 @@ Hópmeðlimir:
 Arnaldur Ólafsson, Add1Padd1 á Github
 Sævar Axel, SaevarIII á Github
 Atlas Hendrik Ósk Dagbjarts, Atlas-Hendrik á GitHub
-test test
