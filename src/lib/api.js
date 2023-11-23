@@ -100,28 +100,28 @@ export async function mainPageCategories() {
   
   return results;
 }
-// export async function fetchProducts() {
-//   let products = [];
-//   const baseURL = 'https://vef1-2023-h2-api-791d754dda5b.herokuapp.com/';
-//   const endpoint = 'products';
-//   let url = baseURL + endpoint;
+export async function fetchProducts() {
+  let products = [];
+  const baseURL = 'https://vef1-2023-h2-api-791d754dda5b.herokuapp.com/';
+  const endpoint = 'products';
+  let url = baseURL + endpoint;
   
-//   while(url) {
-//     try {
-//       const response = await fetch(url);
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       const data = await response.json();
-//       products = products.concat(data.items);
-//     }
-//     catch (error) {
-//       console.error('Error fetching data:', error);
-//       url = null;
-//     }
-//     renderAllProducts(products);
-//   }
-//   }
+  while(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      products = products.concat(data.items);
+    }
+    catch (error) {
+      console.error('Error fetching data:', error);
+      url = null;
+    }
+    renderAllProducts(products);
+  }
+  }
 
 export async function getAllProducts() {
   const url = new URL(`/products`, API_URL);
