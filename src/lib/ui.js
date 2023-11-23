@@ -273,7 +273,7 @@ export async function renderCategoryProducts(parentElement) {
 
   const categoriesEl = productCategoryList(categories);
 
-  const vorusida = el('a', { href: '/products' }, 'Vörusíða')
+  const vorusida = el('a', { href: '/?products=products' }, 'Vörulisti')
   mainElement.appendChild(categoriesEl);
   mainElement.appendChild(vorusida);
 }
