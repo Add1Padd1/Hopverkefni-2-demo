@@ -201,6 +201,7 @@ function listOfVorulistaProducts(results) {
  */
 export async function renderProducts(parentElement) {
   const mainElement = parentElement.querySelector('main');
+  const divElement = parentElement.querySelector('divContainer');
 
   if (!mainElement) {
     console.warn('fann ekki <main> element');
@@ -240,13 +241,13 @@ export function renderFrontpage(
 ) {
   const heading = el('h1', {}, 'Nýjar vörur');
   const container = el('main', {}, heading);
-  
 
+  
+  
   parentElement.appendChild(container);
   
   renderProducts(parentElement);
   renderCategoryProducts(parentElement);
-
 }
 
 
@@ -314,7 +315,6 @@ export async function renderAllProducts(parentElement) {
   }
 
   setLoading(mainElement);
-  console.log("test");
   const result = await getAllProducts();
   setNotLoading(mainElement);
 

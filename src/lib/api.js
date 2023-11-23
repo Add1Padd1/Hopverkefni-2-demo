@@ -5,7 +5,6 @@
  * 
  */
 
-import { renderAllProducts } from './ui.js';
 
 /** Grunnslóð á API */
 const API_URL = 'https://vef1-2023-h2-api-791d754dda5b.herokuapp.com/';
@@ -103,8 +102,8 @@ export async function mainPageCategories() {
 
 export async function getAllProducts() {
   const url = new URL(`/products`, API_URL);
-  //url.searchParams.set('items', '');
-  console.log("fetch");
+  url.searchParams.set('items', '');
+  
   let response;
   try {
     response = await fetch(url);
