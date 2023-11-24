@@ -6,6 +6,7 @@
   
   html {
     box-sizing: border-box;
+    display:grid;
   }
   
   *,
@@ -129,11 +130,55 @@
 
   /* Nýju klasarnir sem við ætlum að nota á elementa, endilega inspecta til að sjá þá þegar þeir birtast */
   /* Stroka út þá klasa sem ekki eru notaðir */
-  .footer{
-    font-size: 1.5em;
-    display: inline;
-    font-weight: 650;
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 25px;
+    background: #0a0a0a;
+   
+
   }
+  
+  .header {
+    font-size: 4em;
+    font-weight: bold;
+    color: #fffafa;
+    padding-top: 2rem;
+  }
+  
+  .navigation-bar {
+    flex-direction: column;
+    align-items: flex-end;
+    color: #f5f5f5;
+    padding-top: 2rem;
+  }
+
+  
+
+  .navigation-bar ul{
+    list-style-type: none;
+    margin: 0.5em 0;
+    padding: 0;
+  }
+  
+  .navigation-bar li {
+    padding: 0 1em;
+    display: inline;
+     margin-left: 1em;
+  }
+  
+  .navigation-bar a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1em;
+    padding: 0.5em 0;
+  }
+  
+  .val a:hover {
+    text-decoration: underline;
+  }
+ 
   .search{}
   .result{
   }
@@ -162,3 +207,313 @@
   }
   .back{}
   .vorusidutitill{}
+
+
+  @media (max-width: 840px){
+    .navigation-bar, .header{
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 840px){
+    .header{
+      font-size: 2rem;
+    }
+  }
+  @media (max-width: 840px){
+    header{ display: flex;
+      justify-content: space-between;}
+  }
+
+  @media (max-width: 522px){
+
+      header {
+       display:block;
+       text-align: center
+       
+      }
+  }
+
+  @media (max-width: 522px){
+
+    main h1 {
+     padding-top:50px;
+     align-items: left;
+    }
+}
+
+@media (max-width: 522px){
+
+  .productContainer {
+    display: flex;
+    flex-direction: column; /* Arrange images vertically */
+    align-items: center;
+  
+  }
+}
+
+  @media (max-width: 522px){
+
+    .productSection a {
+      padding-right: 250px;
+    }
+  }
+
+
+  @media (max-width: 522px){
+
+     .productContainer  {
+      padding-left: 100px;
+
+    }
+  }
+
+ 
+  .frontpageCategoryContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    gap: 20px; 
+  }
+    @media (max-width: 522px){
+      .frontpageCategoryContainer{
+        display: contents;
+      }
+      
+    }
+   
+ 
+  
+    
+
+  
+
+  * {
+
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    box-sizing: border-box;
+  }
+  
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+  
+  :root {
+    --spacing: 1rem;
+    --max-width: 56rem;
+  
+    --font-family: -system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+      Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+    --columns: 12;
+    --gutter: 30px;
+    --offset: 50px;
+  
+  }
+  
+  img {
+    max-width: 100%;
+  }
+  
+  
+  
+  html {
+    font-family: var(--font-family);
+    align-items: center;
+  }
+  
+  input,
+  select,
+  button {
+    font-size: inherit;
+  }
+  
+  input[type='number'] {
+    padding-inline-start: calc(var(--spacing) / 2);
+  }
+  
+  button {
+    padding-inline: calc(var(--spacing) / 2);
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-block-end: var(--spacing);
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+  
+  
+  
+  main {
+    display: flex;
+    flex-direction: column;
+  
+  
+  
+  
+    max-width: var(--max-width);
+    flex: 1;
+    margin: auto;
+  
+    width: 100%;
+  }
+  
+  h1,
+  .loading {
+    margin: auto;
+  }
+  
+  form.search {
+    margin: auto;
+    display: flex;
+    gap: var(--spacing);
+  }
+  
+  a {
+    font-size: 1em;
+    font-weight: 600;
+    color: #313131;
+    text-align: left;
+  }
+  
+  .results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+  }
+  
+  .result {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) / 4);
+  
+    padding: calc(var(--spacing) / 2);
+  
+    /* Texti í flútti við fyrirsögn */
+    margin-left: calc(var(--spacing) / -2);
+    margin-right: calc(var(--spacing) / -2);
+  }
+  
+  .result .mission::before {
+    content: 'Geimferð: ';
+    font-weight: bold;
+  }
+  
+  .result .status::before {
+    content: '🪐';
+    padding-right: calc(var(--spacing) / 4);
+  }
+  
+  .result .status.Success::before {
+    content: '🚀';
+  }
+  
+  .result .status.Failure::before {
+    content: '😢';
+  }
+  
+  .result .status.TBD::before {
+    content: '❓';
+  }
+  
+  .result:nth-child(odd) {
+    background-color: #f5f5f5;
+  }
+  
+  .launch,
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing));
+  }
+  
+  
+  
+  /* Nýju klasarnir sem við ætlum að nota á elementa, endilega inspecta til að sjá þá þegar þeir birtast */
+  /* Stroka út þá klasa sem ekki eru notaðir */
+  .footer{
+    font-size: 1.5em;
+    display: inline;
+    font-weight: 650;
+  }
+  
+  
+  .productContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+  }
+  
+  .productSection {
+    flex: 1 0 calc(33.333% - 20px); 
+    margin: 10px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  
+  @media (max-width: 700px) {
+    .productSection {
+      flex: 1 0 calc(50% - 20px); /* Two items per row on smaller screens */
+    }
+  }
+  
+  
+  .category{
+    font-size: 1em;
+    font-weight: 500;
+    text-align: left;
+  }
+  
+  .verd{
+    font-size: 1.3em;
+    font-weight: 600;
+    text-align: right;
+  }
+  
+
+  
+  .categories {
+    text-align: center;
+    border: 1px solid #313131;
+    padding: 10px;
+  }
+  
+  .categoryHeader {
+    grid-column: 1 / -1; 
+    text-align: left;
+  }
+  
+  .vorucontainer{
+    block-size: 2rem;
+    inline-size: 1.5rem;
+  }
+  
+  .description{
+    margin: 1.5em;
+    font-size: 1.1em;
+    display: inline;
+  }
+  
+  .main-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between; /* Adjust as needed */
+  }
+  
+  .box {
+    width: calc(50% - var(--spacing)); /* Adjust width and spacing as needed */
+    margin-bottom: var(--spacing);
+  }
+  
+
