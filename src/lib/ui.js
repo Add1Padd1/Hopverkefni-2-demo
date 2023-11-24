@@ -201,7 +201,7 @@ function listOfVorulistaProducts(results) {
  */
 export async function renderProducts(parentElement) {
   const mainElement = parentElement.querySelector('main');
-  const divElement = parentElement.querySelector('divContainer');
+  // const divElement = parentElement.querySelector('divContainer');
 
   if (!mainElement) {
     console.warn('fann ekki <main> element');
