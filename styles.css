@@ -232,7 +232,11 @@ a {
   margin-bottom: var(--spacing);
 }
 
-
+=======
+    margin: 0;
+    padding: 0;
+  }
+  
   html {
     box-sizing: border-box;
   }
