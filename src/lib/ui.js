@@ -53,6 +53,7 @@ function setNotLoading(parentElement, searchForm = undefined) {
 
 /**
  * Taka upplýsingar úr JSON results og birtir vörur.
+ * 
  * @param {import('./api.types.js').Products[] | null} results Niðurstöður úr leit
  */
 function productList(results) {
@@ -275,6 +276,7 @@ export async function renderDistinctCategory(parentElement, category_id) {
   //   el('a', { href: '/' }, 'Til baka'),
   // );
 
+
   parentElement.appendChild(container);
 
   const divContainer = el('div', {class: 'divContainer'});
@@ -286,6 +288,7 @@ export async function renderDistinctCategory(parentElement, category_id) {
   setNotLoading(divContainer);
   
   const categoryEl = productList(result);
+
 
   
 
