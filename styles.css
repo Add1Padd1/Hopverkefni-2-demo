@@ -273,6 +273,14 @@ a {
 
   }
 }
+/* Var að setja þetta hér svo media fyrir þennan container virki */
+
+.frontpageCategoryContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, auto);
+  gap: 20px; 
+}
 
 @media (max-width: 522px){
   .frontpageCategoryContainer{
@@ -292,13 +300,6 @@ a {
 /* Endar hér */
 
 /* Containerar */
-
-.frontpageCategoryContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
-  gap: 20px; 
-}
 
 .productContainer {
   display: flex;
