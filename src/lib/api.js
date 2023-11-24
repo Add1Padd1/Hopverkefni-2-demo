@@ -1,4 +1,3 @@
-
 /**
  * Sækjum týpurnar okkar.
  * @typedef {import('./api.types.js').Products} products
