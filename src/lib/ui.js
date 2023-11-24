@@ -1,6 +1,5 @@
-import { getAllProducts, getCategory, getProduct, mainPageProducts } from './api.js';
-import { moreProducts as moreProducts} from './api.js';
-import { mainPageCategories as mainPageCategories} from './api.js';
+import { getAllProducts, getCategory, getProduct, mainPageProducts, mainPageCategories, 
+  moreProducts } from './api.js';
 import { el } from './elements.js';
 
 
@@ -229,29 +228,6 @@ export async function renderProducts(parentElement) {
 
 }
 
-
-
-
-/**
- * Sýna forsíðu með 6 vörum og 10 flokkum.
- * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
- */
-export function renderFrontpage(
-  parentElement
-) {
-  const heading = el('h1', {}, 'Nýjar vörur');
-  const container = el('main', {}, heading);
-
-  
-  
-  parentElement.appendChild(container);
-  
-  renderProducts(parentElement);
-  renderCategoryProducts(parentElement);
-}
-
-
-
 /**
  * Renderar vöruflokkana á forsíðu.
  * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
@@ -278,20 +254,28 @@ export async function renderCategoryProducts(parentElement) {
   mainElement.appendChild(categoriesEl);
   mainElement.appendChild(vorusida);
 }
+
+
+
 /**
- * Sýnir vörulista.
- * @param {HTMLElement} parentElement Element sem á að innihalda vörulista.
+ * Sýna forsíðu með 6 vörum og 10 flokkum.
+ * @param {HTMLElement} parentElement Element sem á að innihalda forsíðu.
  */
-export function renderAllarVorur(
+export function renderFrontpage(
   parentElement
 ) {
-  const heading = el('h1', {}, 'Allar vörur');
+  const heading = el('h1', {}, 'Nýjar vörur');
   const container = el('main', {}, heading);
-  
 
+  
+  
   parentElement.appendChild(container);
   
-  renderAllProducts(parentElement);
+  renderProducts(parentElement);
+  renderCategoryProducts(parentElement);
+  const vorusida = el('a', {href: '/?products=products'}, 'Nýjar vörur');
+  container.appendChild(vorusida);
+
 
 }
 
@@ -328,6 +312,25 @@ export async function renderAllProducts(parentElement) {
   const vorulisti = listOfVorulistaProducts(result);
   mainElement.appendChild(vorulisti);
   }
+
+
+
+/**
+ * Sýnir vörulista.
+ * @param {HTMLElement} parentElement Element sem á að innihalda vörulista.
+ */
+export function renderAllarVorur(
+  parentElement
+) {
+  const heading = el('h1', {}, 'Allar vörur');
+  const container = el('main', {}, heading);
+  
+
+  parentElement.appendChild(container);
+  
+  renderAllProducts(parentElement);
+
+}
 
 
 
@@ -392,7 +395,7 @@ export async function renderDetails(parentElement, id) {
   );
   const tridjaProductElement = el(
     'div',
-    { class: 'moreHeader' },
+    { class: 'categoryHeader' },
     el('h1', { class: 'category'}, `Meira úr ${categoryTitleElement}`),
     );
     divContainer.appendChild(annadProductElement);

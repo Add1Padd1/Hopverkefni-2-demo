@@ -1,5 +1,6 @@
 import { empty } from './lib/elements.js';
-import { renderDetails, renderFrontpage, renderDistinctCategory, renderAllarVorur } from './lib/ui.js';
+import { renderDetails, renderFrontpage, renderDistinctCategory, 
+  renderAllarVorur } from './lib/ui.js';
 
 
 /**

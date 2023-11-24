@@ -2,7 +2,7 @@
 Hópverkefni 2 - Hópur 1
 Keyra skal verkefnið með npm install og svo npm run dev
 
-// Verkefnið er sett með index.html þar sem innihald síðunnar birtist í, styles.css sem er notað fyrir útlit og grid.css sem er notað til að ná skalanleika. 
+// Verkefnið er sett með index.html þar sem innihald síðunnar birtist í, styles.css sem er notað fyrir útlit og grid.css sem er notað til að ná skalanleika. Við settum ekki upp SASS vegna lítils tíma. Hinsvegar eru hvert og eitt section í styles.css merkt fyrir viðeigandi element síðunnar t.d. header fyrir allt í headernum, Skalanleiki fyrir allt @media o.s.fr. 
 
 // Erum síðan með js skrár sem sjá um javascript og interactivity á síðunni.
 

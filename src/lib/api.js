@@ -101,7 +101,7 @@ export async function mainPageCategories() {
 }
 
 export async function getAllProducts() {
-  const url = new URL(`/products`, API_URL);
+  const url = new URL('/products', API_URL);
   url.searchParams.set('items', '');
   
   let response;
@@ -203,11 +203,11 @@ export async function getCategory(id) {
 
   return results;
 }
-
+/* eslint-disable */
 export async function moreProducts(category_id) {
   const url = new URL(`/products?limit=3&category=${category_id}`, API_URL);
 
-  
+  /* eslint-enable */
   let response;
   try {
     response = await fetch(url);

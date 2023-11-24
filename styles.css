@@ -1,5 +1,4 @@
 /* Reset og border-box á allt */
-
 html {
   box-sizing: border-box;
   display:grid;
@@ -97,43 +96,8 @@ form.search {
   margin-right: calc(var(--spacing) / -2);
 }
 
-.result .mission::before {
-  content: 'Geimferð: ';
-  font-weight: bold;
-}
 
-.result .status::before {
-  content: '🪐';
-  padding-right: calc(var(--spacing) / 4);
-}
-
-.result .status.Success::before {
-  content: '🚀';
-}
-
-.result .status.Failure::before {
-  content: '😢';
-}
-
-.result .status.TBD::before {
-  content: '❓?';
-}
-
-.result:nth-child(odd) {
-  background-color: #f5f5f5;
-}
-
-.launch,
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing));
-}
-
-
-
-/* Nýju klasarnir sem við ætlum að nota á elementa, endilega inspecta til að sjá þá þegar þeir birtast */
-/* Stroka út þá klasa sem ekki eru notaðir */
+/* Headerar og allt sem er inni í þeim */
 header {
   display: flex;
   justify-content: space-between;
@@ -179,24 +143,41 @@ header {
   padding: 0.5em 0;
 }
 
+
+* {
+
+  margin: 0;
+  padding: 0;
+}
+/* Endar hér */
+
+
+/* Boxin */
 .val a:hover {
   text-decoration: underline;
-}
-
-.category{
-  font-size: 1.3em;
-  font-weight: 500;
 }
 
 .categories{
   list-style: none;
   font-size: large;
   font-weight: 500;
+
+  text-align: center;
+  border: 1px solid #313131;
+  padding: 10px;
+}
+
+.categoryHeader {
+  grid-column: 1 / -1; 
+  text-align: left;
+  font-size: 1.3em;
+  font-weight: 600;
 }
 
 .verd{
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: 600;
+  text-align: right; 
 }
 
 .description{
@@ -205,6 +186,34 @@ header {
   display: inline;
 }
 
+.category{
+  font-size: 1em;
+  font-weight: 500;
+  text-align: left;
+}
+
+.box {
+  width: calc(50% - var(--spacing)); /* Adjust width and spacing as needed */
+  margin-bottom: var(--spacing);
+}
+
+a {
+  font-size: 1em;
+  font-weight: 600;
+  color: #313131;
+  text-align: left;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing));
+}
+
+/*Endar hér*/
+
+
+/* Skalanleiki */
 @media (max-width: 840px){
   .navigation-bar, .header{
     font-size: 0.8rem;
@@ -265,81 +274,12 @@ header {
   }
 }
 
-.frontpageCategoryContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
-  gap: 20px; 
-}
-  @media (max-width: 522px){
-    .frontpageCategoryContainer{
-      display: contents;
-    }
-    
+@media (max-width: 522px){
+  .frontpageCategoryContainer{
+    display: contents;
   }
-
-* {
-
-  margin: 0;
-  padding: 0;
+  
 }
-
-a {
-  font-size: 1em;
-  font-weight: 600;
-  color: #313131;
-  text-align: left;
-}
-
-.results {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing);
-}
-
-.result {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing) / 4);
-
-  padding: calc(var(--spacing) / 2);
-
-  /* Texti í flútti við fyrirsögn */
-  margin-left: calc(var(--spacing) / -2);
-  margin-right: calc(var(--spacing) / -2);
-}
-
-
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing));
-}
-
-
-
-/* Nýju klasarnir sem við ætlum að nota á elementa, endilega inspecta til að sjá þá þegar þeir birtast */
-/* Stroka út þá klasa sem ekki eru notaðir */
-.footer{
-  font-size: 1.5em;
-  display: inline;
-  font-weight: 650;
-}
-
-
-.productContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; 
-}
-
-.productSection {
-  flex: 1 0 calc(33.333% - 20px); 
-  margin: 10px;
-  text-align: center;
-  box-sizing: border-box;
-}
-
 
 @media (max-width: 700px) {
   .productSection {
@@ -348,40 +288,27 @@ a {
 }
 
 
-.category{
-  font-size: 1em;
-  font-weight: 500;
-  text-align: left;
+
+/* Endar hér */
+
+/* Containerar */
+
+.frontpageCategoryContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, auto);
+  gap: 20px; 
 }
 
-.verd{
-  font-size: 1.3em;
-  font-weight: 600;
-  text-align: right; 
-}
-
-
-
-.categories {
-  text-align: center;
-  border: 1px solid #313131;
-  padding: 10px;
-}
-
-.categoryHeader {
-  grid-column: 1 / -1; 
-  text-align: left;
+.productContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; 
 }
 
 .vorucontainer{
   block-size: 2rem;
   inline-size: 1.5rem;
-}
-
-.description{
-  margin: 1.5em;
-  font-size: 1.1em;
-  display: inline;
 }
 
 .main-container {
@@ -390,7 +317,9 @@ a {
   justify-content: space-between; /* Adjust as needed */
 }
 
-.box {
-  width: calc(50% - var(--spacing)); /* Adjust width and spacing as needed */
-  margin-bottom: var(--spacing);
+.productSection {
+  flex: 1 0 calc(33.333% - 20px); 
+  margin: 10px;
+  text-align: center;
+  box-sizing: border-box;
 }
