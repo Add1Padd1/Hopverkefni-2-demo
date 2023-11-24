@@ -112,7 +112,7 @@
   }
   
   .result .status.TBD::before {
-    content: '❓';
+    content: '❓?';
   }
   
   .result:nth-child(odd) {
@@ -478,7 +478,7 @@
   .verd{
     font-size: 1.3em;
     font-weight: 600;
-    text-align: right;
+    text-align: right; 
   }
   
 
